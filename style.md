@@ -40,5 +40,5 @@
 ## Review & Collaboration
 - Every change must go through a pull request with at least one peer review.
 - Pull requests should be small and focused on a single concern.
-- Write commit messages in the imperative mood and reference the related issue (e.g. `Fix login timeout — closes #42`).
+- Use [Conventional Commits](https://www.conventionalcommits.org/) for all commit messages (e.g. `fix: resolve login timeout — closes #42`, `feat: add user profile page`).
 - Keep the main branch always deployable; use feature flags for incomplete work.
