@@ -42,3 +42,15 @@
 - Pull requests should be small and focused on a single concern.
 - Use [Conventional Commits](https://www.conventionalcommits.org/) for all commit messages (e.g. `fix: resolve login timeout — closes #42`, `feat: add user profile page`).
 - Keep the main branch always deployable; use feature flags for incomplete work.
+
+## Agent Orchestration & Sub-Agent Delegation
+- The main agent **must not** perform explorative, research, file-reading, or information-gathering work directly — always delegate these to sub-agents.
+- On receiving any task, immediately decompose it into independent sub-tasks and spawn a dedicated sub-agent for each one before doing any other work.
+- Spawn sub-agents aggressively: if a task *could* be parallelised or farmed out, it *must* be. Err on the side of spawning more sub-agents rather than fewer.
+- The main agent's sole responsibility is high-level understanding of the overall goal, designing the decomposition strategy, integrating sub-agent results, and deciding the next orchestration step.
+- Each sub-agent must be given only the minimal, self-contained context it needs for its specific sub-task — never forward the full conversation history.
+- Run all independent sub-agents in parallel; never block on one sub-agent before launching another when they have no dependency between them.
+- After every round of sub-agents completes, the main agent consolidates results into a single compact summary before spawning the next wave or producing a final answer.
+- Research tasks (reading docs, exploring the codebase, checking external references, analysing logs) must always be handled by sub-agents — the main agent must never perform raw exploration itself.
+- Implementation sub-agents should be scoped to a single file, module, or concern; never let one sub-agent own an entire feature end-to-end if it can be split further.
+- If a sub-agent's result reveals new unknowns, the main agent must spawn additional sub-agents to resolve them rather than attempting to resolve them inline.
